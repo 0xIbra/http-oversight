@@ -1,0 +1,19 @@
+{
+  "name": "http-heartbeat",
+  "version": "0.0.1",
+  "description": "A node module that groups together useful http functions.",
+  "main": "module.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "http",
+    "https",
+    "http-redirects",
+    "http-checks",
+    "http-validation",
+    "http-tests"
+  ],
+  "author": "Ibragim Abubakarov",
+  "license": "MIT"
+}
