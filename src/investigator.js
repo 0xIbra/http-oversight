@@ -4,8 +4,98 @@ const { extractHttpData, normalizeRequest, normalizeResponse } = require('./util
 async function httpOrHttps(url) {
     let parsedUrl = new URL(url);
 
-    if (parsedUrl.protocol === 'http:') {
+    parsedUrl.protocol = 'http:';
+    url = parsedUrl.toString();
 
+    let http = await httpAccess(url);
+
+    parsedUrl.protocol = 'https:';
+    url = parsedUrl.toString();
+
+    let https = await httpsAccess(url);
+
+    let result = null;
+    if (http === true) {
+        result = 'http';
+    }
+
+    if (https === true) {
+        result = 'https';
+    }
+
+    if (https === true && http === true) {
+        result = 'both';
+    }
+
+    return result;
+}
+
+async function httpAccess(url) {
+    let parsedUrl = new URL(url);
+    parsedUrl.protocol = 'http:';
+    url = parsedUrl.toString();
+
+    try {
+        let response = await request({
+            method: 'HEAD',
+            uri: url,
+            resolveWithFullResponse: true,
+            followAllRedirects: true
+        });
+
+        let data = extractHttpData(url, { response });
+        if (data.request != null && data.request.uri != null) {
+            if (data.request.uri.startsWith('http://')) {
+                return true;
+            }
+        }
+
+        return false;
+    } catch (e) {
+        let response = handleRequestErrors(url, e);
+
+        if (response.request != null && response.request.uri != null) {
+            if (response.request.uri.startsWith('http://')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+async function httpsAccess(url) {
+    let parsedUrl = new URL(url);
+    parsedUrl.protocol = 'https:';
+
+    url = parsedUrl.toString();
+
+    try {
+        let response = await request({
+            method: 'HEAD',
+            uri: url,
+            resolveWithFullResponse: true,
+            followAllRedirects: true
+        });
+
+        let data = extractHttpData(url, { response });
+        if (data.request != null && data.request.uri != null) {
+            if (data.request.uri.startsWith('https://')) {
+                return true;
+            }
+        }
+
+        return false;
+    } catch (e) {
+        let response = handleRequestErrors(url, e);
+
+        if (response.request != null && response.request.uri != null) {
+            if (response.request.uri.startsWith('https://')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
@@ -98,6 +188,40 @@ async function checkHeartbeat(url) {
     }
 }
 
+async function getSSLData(url) {
+    let parsedUrl = new URL(url);
+    parsedUrl.protocol = 'https:';
+    url = parsedUrl.toString();
+
+    try {
+        let response = await request({
+            method: 'HEAD',
+            uri: url,
+            resolveWithFullResponse: true,
+            followAllRedirects: true
+        });
+
+        response = await normalizeResponse(response);
+
+        if (response.ssl != null) {
+            return response.ssl;
+        }
+
+        return null;
+    } catch (e) {
+        let res = handleRequestErrors(e)
+        if (res.error === true) {
+            return null;
+        }
+
+        if (res.response != null && res.response.ssl != null) {
+            return res.response.ssl;
+        }
+
+        return null;
+    }
+}
+
 function handleRequestErrors(url, e) {
     if (e == null) {
         return null;
@@ -111,18 +235,18 @@ function handleRequestErrors(url, e) {
                 type: 'DNS Lookup',
                 code: 'dns',
                 errorMessage: 'URL inaccessible. Check if URL is correct.'
-            }
+            };
         }
     }
 
     if (e.error === '') {
         if (e.response != null && e.response.toJSON != null) {
-            let data = extractHttpData(url, e)
+            let data = extractHttpData(url, e);
 
             return {
                 error: false,
                 ...data
-            }
+            };
         }
     }
 
@@ -130,12 +254,13 @@ function handleRequestErrors(url, e) {
         error: true,
         type: 'Unknown',
         errorMessage: null
-    }
+    };
 }
 
 module.exports = {
     httpOrHttps,
     httpToHttps,
     ping,
-    checkHeartbeat
-}
+    checkHeartbeat,
+    getSSLData
+};
