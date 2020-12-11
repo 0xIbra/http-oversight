@@ -1,10 +1,11 @@
 {
-  "name": "http-heartbeat",
+  "name": "http-investigator",
   "version": "0.0.1",
   "description": "A node module that groups together useful http functions.",
   "main": "module.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --exit --timeout=600000 tests/main.test.js",
+    "tests": "mocha --exit --timeout=600000 tests/main.test.js"
   },
   "keywords": [
     "http",
@@ -14,6 +15,25 @@
     "http-validation",
     "http-tests"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibragim64/http-heartbeat.git"
+  },
   "author": "Ibragim Abubakarov",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ibragim64/http-heartbeat/issues"
+  },
+  "homepage": "https://github.com/ibragim64/http-heartbeat",
+  "dependencies": {
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  }
 }
