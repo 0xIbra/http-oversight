@@ -1,5 +1,5 @@
 {
-  "name": "http-investigator",
+  "name": "http-oversight",
   "version": "0.0.1",
   "description": "A node module that groups together useful http functions.",
   "main": "module.js",
@@ -13,18 +13,21 @@
     "http-redirects",
     "http-checks",
     "http-validation",
-    "http-tests"
+    "http-tests",
+    "http-audit",
+    "http-oversight",
+    "http-inspect"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ibragim64/http-heartbeat.git"
+    "url": "git+https://github.com/ibragim64/http-oversight.git"
   },
   "author": "Ibragim Abubakarov",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ibragim64/http-heartbeat/issues"
+    "url": "https://github.com/ibragim64/http-oversight/issues"
   },
-  "homepage": "https://github.com/ibragim64/http-heartbeat",
+  "homepage": "https://github.com/ibragim64/http-oversight",
   "dependencies": {
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9"
