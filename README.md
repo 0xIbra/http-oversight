@@ -33,7 +33,7 @@ let sslData = await oversight.getSSLData('https://www.ibragim.fr/');
 API
 ---
 
-#### httpOrHttps(url)
+### httpOrHttps(url)
 **string** [http, https, both]
 
 Checks the http protocols supported.  
@@ -44,7 +44,7 @@ Returns `https` if url is accessible only via **https**.
 Returns `both` if url is accessible via both **http** and **https**.
 
 
-#### httpToHttps(url) 
+### httpToHttps(url) 
 **boolean**
 
 Checks if port 80 is redirected to 443 or not (http -> https).  
@@ -56,27 +56,27 @@ Checks if port 80 is redirected to 443 or not (http -> https).
 Checks if a url is accessible on port 80 (http) without redirection to 443 (https).  
 
 
-#### httpsAccess(url)
+### httpsAccess(url)
 **boolean**
 
 Checks if a url is accessible on port 443 (https).
 
 
-#### ping(url, accept2XXOnly = false)
+### ping(url, accept2XXOnly = false)
 **boolean**
 
 Checks for any response for a url.  
 if `accept2XXOnly` is set to `true`, returns `false` for any http response that does not respond with http code `2xx`.
 
 
-#### checkHeartbeat(url)
+### checkHeartbeat(url)
 **boolean**
 
 Checks if a url responds or not.  
 If there is any kind of response from an http server, returns `true`.
 
 
-#### getSSLData(url)
+### getSSLData(url)
 **object | null**
 
 Fetches SSL data of for a url if there are any, if not, returns `null`.
