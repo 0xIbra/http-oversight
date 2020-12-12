@@ -1,0 +1,66 @@
+version: 2
+jobs:
+  node-14:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - oversight-modules-{{ checksum "package.json" }}
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: oversight-modules-{{ checksum "package.json" }}
+
+      - run: npm run tests
+
+  node-12:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - oversight-modules-{{ checksum "package.json" }}
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: oversight-modules-{{ checksum "package.json" }}
+
+      - run: npm run tests
+
+  node-10:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - oversight-modules-{{ checksum "package.json" }}
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: oversight-modules-{{ checksum "package.json" }}
+
+      - run: npm run tests
+
+workflows:
+  version: 2
+  test-oversight-component:
+    jobs:
+      - node-14
+      - node-12
+      - node-10
