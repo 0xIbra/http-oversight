@@ -1,5 +1,5 @@
 # HTTP Oversight
-[![CircleCI](https://circleci.com/gh/ibragim64/http-oversight/tree/master.svg?style=shield&circle-token=f1dbf29146b4a5b88e844dcb3f59bf6ed45a6146)](https://github.com/ibragim64/http-oversight/tree/master)
+[![CircleCI](https://circleci.com/gh/ibragim64/http-oversight/tree/master.svg?style=shield&circle-token=dc6384015a01ddc8c160219590a8ebce0986de04)](https://github.com/ibragim64/http-oversight/tree/master)
 
 > A node module that groups together useful http functions to perform various actions.
 
