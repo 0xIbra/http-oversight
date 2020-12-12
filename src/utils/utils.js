@@ -69,7 +69,7 @@ function normalizeResponse(response) {
 
     let certificate = response.connection.getPeerCertificate();
     normalized.ssl = null;
-    if (certificate != null) {
+    if (certificate != null && certificate.subject != null && certificate.subject.CN != null) {
         normalized.ssl = {
             subjectName: certificate.subject.CN,
             issuer: certificate.issuer.CN,
