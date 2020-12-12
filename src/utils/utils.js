@@ -62,21 +62,27 @@ function normalizeResponse(response) {
     normalized.status = normalized.statusCode;
     normalized.statusText = response.statusMessage;
 
-    normalized.remote = {
-        ip: response.connection.remoteAddress,
-        port: response.socket.remotePort
-    };
-
-    let certificate = response.connection.getPeerCertificate();
-    normalized.ssl = null;
-    if (certificate != null && certificate.subject != null && certificate.subject.CN != null) {
-        normalized.ssl = {
-            subjectName: certificate.subject.CN,
-            issuer: certificate.issuer.CN,
-            validFrom: new Date(certificate.valid_from).getTime(),
-            validTo: new Date(certificate.valid_to).getTime(),
-            protocol: response.connection.getProtocol()
+    normalized.remote = null;
+    if (response.connection != null) {
+        normalized.remote = {
+            ip: response.connection.remoteAddress,
+            port: response.socket.remotePort
         };
+    }
+
+    normalized.ssl = null;
+
+    if (response.connection != null && response.connection.getPeerCertificate != null) {
+        let certificate = response.connection.getPeerCertificate();
+        if (certificate != null && certificate.subject != null && certificate.subject.CN != null) {
+            normalized.ssl = {
+                subjectName: certificate.subject.CN,
+                issuer: certificate.issuer.CN,
+                validFrom: new Date(certificate.valid_from).getTime(),
+                validTo: new Date(certificate.valid_to).getTime(),
+                protocol: response.connection.getProtocol()
+            };
+        }
     }
 
     return normalized;
