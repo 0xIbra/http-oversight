@@ -82,8 +82,19 @@ function normalizeResponse(response) {
     return normalized;
 }
 
+function parseUrl(url) {
+    let normalizedUrl = url
+
+    if (!normalizedUrl.startsWith('http')) {
+        normalizedUrl = `http://${normalizedUrl}`;
+    }
+
+    return new URL(normalizedUrl);
+}
+
 module.exports = {
     extractHttpData,
     normalizeRequest,
-    normalizeResponse
+    normalizeResponse,
+    parseUrl
 };

@@ -1,8 +1,8 @@
 const request = require('request-promise-native');
-const { extractHttpData, normalizeRequest, normalizeResponse } = require('./utils/utils');
+const { extractHttpData, normalizeRequest, normalizeResponse, parseUrl } = require('./utils/utils');
 
 async function httpOrHttps(url) {
-    let parsedUrl = new URL(url);
+    let parsedUrl = parseUrl(url)
 
     parsedUrl.protocol = 'http:';
     url = parsedUrl.toString();
@@ -31,7 +31,7 @@ async function httpOrHttps(url) {
 }
 
 async function httpAccess(url) {
-    let parsedUrl = new URL(url);
+    let parsedUrl = parseUrl(url);
     parsedUrl.protocol = 'http:';
     url = parsedUrl.toString();
 
@@ -65,7 +65,7 @@ async function httpAccess(url) {
 }
 
 async function httpsAccess(url) {
-    let parsedUrl = new URL(url);
+    let parsedUrl = parseUrl(url);
     parsedUrl.protocol = 'https:';
 
     url = parsedUrl.toString();
@@ -100,7 +100,7 @@ async function httpsAccess(url) {
 }
 
 async function httpToHttps(url) {
-    let parsedUrl = new URL(url);
+    let parsedUrl = parseUrl(url);
     parsedUrl.protocol = 'http:';
     url = parsedUrl.toString();
 
@@ -169,6 +169,9 @@ async function ping(url, accept200Only = false) {
 }
 
 async function checkHeartbeat(url) {
+    let parsed = parseUrl(url);
+    url = parsed.toString();
+
     try {
         let response = await request({
             method: 'HEAD',
@@ -189,7 +192,7 @@ async function checkHeartbeat(url) {
 }
 
 async function getSSLData(url) {
-    let parsedUrl = new URL(url);
+    let parsedUrl = parseUrl(url);
     parsedUrl.protocol = 'https:';
     url = parsedUrl.toString();
 
@@ -260,6 +263,8 @@ function handleRequestErrors(url, e) {
 module.exports = {
     httpOrHttps,
     httpToHttps,
+    httpAccess,
+    httpsAccess,
     ping,
     checkHeartbeat,
     getSSLData
